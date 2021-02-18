@@ -1,6 +1,5 @@
 import {TYPES_OF_APPARTMENTS} from './data.js';
 
-//********** Задание Отрисуй меня полностью (часть 2)**/
 const apartmentTypes = document.querySelector('#type');
 const formMinPrice = document.querySelector('#price');
 
