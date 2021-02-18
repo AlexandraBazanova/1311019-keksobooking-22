@@ -3,19 +3,23 @@ import {getRandomNumber, getRandomArbitrary, getOneRandomItem, getRandomItemsArr
 const TITLES = ['Best offer', 'Great location', 'Choice of visitors', 'Top 100', 'Eco-friendly', 'Summer offer', 'For family holidays', 'Best city view'];
 const TYPES_OF_APPARTMENTS = [{
   en: 'flat',
-  ru: 'Квартира'
+  ru: 'Квартира',
+  minPrice: 1000
 },
 {
   en: 'palace',
-  ru: 'Дворец'
+  ru: 'Дворец',
+  minPrice: 10000
 },
 {
   en: 'house',
-  ru: 'Дом'
+  ru: 'Дом',
+  minPrice: 5000
 },
 {
   en: 'bungalow',
-  ru: 'Бунгало'
+  ru: 'Бунгало',
+  minPrice: 0
 }
 ];
 const ROOMS_COUNTS = [1, 2, 3, 100];
@@ -58,4 +62,4 @@ const createAdvert = () => {
 
 const similarAdvert = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 console.log(similarAdvert)
-export {similarAdvert};
+export {similarAdvert, TYPES_OF_APPARTMENTS, TIMES};
