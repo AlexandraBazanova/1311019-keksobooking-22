@@ -1,5 +1,7 @@
 import {similarAdvert} from './data.js'
 
+/* global L:readonly */
+
 const mapForm = document.querySelectorAll('.ad-form__element');
 mapForm.forEach((element) => {
   element.classList.add('ad-form--disabled');
@@ -26,17 +28,21 @@ const activateState = function () {
   });
   console.log('Карта инициализирована')
 };
+const LAT_CITY = 35.68950;
+const LNG_CITY = 139.69200;
+const ZOOM = 12;
+const TIME_OUT = 2000;
 
 const map = L.map('map-canvas')
 .on('load', () => {
   setTimeout(function(){
       activateState();
-  }, 2000);
+  }, TIME_OUT);
 })
 .setView({
-  lat: 35.68950,
-  lng: 139.69200,
-}, 12);
+  lat: LAT_CITY,
+  lng: LNG_CITY,
+}, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -53,8 +59,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.68950,
-    lng: 139.69200,
+    lat: LAT_CITY,
+    lng: LNG_CITY,
   },
   {
     draggable: true,
@@ -65,7 +71,7 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 const formAddress = document.querySelector('#address');
-formAddress.value = '35.68950, 139.69200';
+formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
 
 mainPinMarker.on('drag', (evt) => {
   const coords = evt.target.getLatLng();
