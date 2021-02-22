@@ -10,6 +10,7 @@ apartmentTypes.addEventListener('change', function (evt) {
 
 formMinPrice.addEventListener('blur', function (evt) {
  const placeholder = formMinPrice.getAttribute('placeholder');
+
  formMinPrice.removeAttribute('style');
   if (parseInt(evt.target.value) < parseInt(placeholder)) {
     formMinPrice.setAttribute('style', 'border: 1px solid red');
@@ -23,6 +24,7 @@ const timeOut = document.querySelector('#timeout');
 timeIn.addEventListener('change', () => {
   timeOut.value = timeIn.value;
 });
+
 
 timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
@@ -72,3 +74,4 @@ formRoomNumber.addEventListener('change', ()  => {
           foo(3, 3)
         )
 });
+
