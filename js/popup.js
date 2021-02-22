@@ -3,7 +3,6 @@ export {renderCard};
 
 
 const renderCard = function (announcement) {
-  console.log(announcement)
   //Находим фрагмент с содержимым темплейта
   const templateFragment = document.querySelector('#card').content;
   //Клонируем фрагмент со всеми внутренностями
@@ -72,6 +71,6 @@ const fragment = document.createDocumentFragment();
 fragment.appendChild(renderCard(similarAdvert[0]));
 
 //Отрисовываем первое объявление
-const advert = document.querySelector('.map__canvas');
-advert.appendChild(fragment);
+// const advert = document.querySelector('.map__canvas');
+// advert.appendChild(fragment);
 

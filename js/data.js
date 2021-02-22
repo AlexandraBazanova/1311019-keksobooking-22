@@ -1,21 +1,25 @@
 import {getRandomNumber, getRandomArbitrary, getOneRandomItem, getRandomItemsArray} from './utils.js';
 
-const TITLES = ['Best offer', 'Great location', 'Choice of visitors', 'Top 100', 'Eco-friendly', 'Summer offer', 'For family holidays', 'Best city view'];
+const TITLES = ['Лучшее предложение', 'Великолепное расположение', 'Выбор посетителей', 'Top 100', 'Eco-friendly', 'Летнее предложение', 'Для семейных выходных', 'Лучший вид на город'];
 const TYPES_OF_APPARTMENTS = [{
   en: 'flat',
-  ru: 'Квартира'
+  ru: 'Квартира',
+  minPrice: 1000
 },
 {
   en: 'palace',
-  ru: 'Дворец'
+  ru: 'Дворец',
+  minPrice: 10000
 },
 {
   en: 'house',
-  ru: 'Дом'
+  ru: 'Дом',
+  minPrice: 5000
 },
 {
   en: 'bungalow',
-  ru: 'Бунгало'
+  ru: 'Бунгало',
+  minPrice: 0
 }
 ];
 const ROOMS_COUNTS = [1, 2, 3, 100];
@@ -23,7 +27,7 @@ const GUESTS_COUNTS = [1, 2, 3, 4];
 const TIMES = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const APPARTMENTS_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-const DESCRIPTIONS = ['Do not miss the best deal!', 'All sights of the city within walking distance', 'Helpful staff, comfortable location, parking on request', 'Services of a guide-translator, nanny, organization of weddings and celebrations. To get the service, contact the reception', 'Thank you Google translate'];
+const DESCRIPTIONS = ['Не упустите лучшее предложение в регионе', 'Все достопримечательности в пешей доступности', 'Внимательный персонал, удобное расположение, парковка по запросу', 'Услуги няни, переводчика, проведение мероприятий. Для получения услуги обратитесь на ресепшн', 'Thank you Google translate'];
 const SIMILAR_ADVERT_COUNT = 10;
 
 const createAdvert = () => {
@@ -58,4 +62,4 @@ const createAdvert = () => {
 
 const similarAdvert = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 console.log(similarAdvert)
-export {similarAdvert};
+export {similarAdvert, TYPES_OF_APPARTMENTS, TIMES};
