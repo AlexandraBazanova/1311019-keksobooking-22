@@ -68,7 +68,7 @@ const renderCard = function (announcement) {
 //Создаем коробочку для объявлений
 const fragment = document.createDocumentFragment();
 //Складываем в коробочку только первое объявление
-fragment.appendChild(renderCard(similarAdvert[0]));
+//fragment.appendChild(renderCard(similarAdvert[0]));
 
 //Отрисовываем первое объявление
 // const advert = document.querySelector('.map__canvas');

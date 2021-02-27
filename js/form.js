@@ -1,4 +1,7 @@
 import {TYPES_OF_APPARTMENTS} from './data.js';
+import {showAlert} from './utils.js';
+import {sendData} from './api.js';
+import {LAT_CITY, LNG_CITY, mainPinMarker} from './map.js';
 
 const apartmentTypes = document.querySelector('#type');
 const formMinPrice = document.querySelector('#price');
@@ -30,9 +33,6 @@ timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
 
-
-//******Задание Помощь друга (часть 2)******/
-
 const formTitle = document.querySelector('#title');
 
 formTitle.addEventListener('input', () => {
@@ -50,7 +50,7 @@ const formCapacity = document.querySelector('#capacity');
 
 formRoomNumber.addEventListener('change', ()  => {
   formCapacity.innerHTML = "";
-  const foo = function(e, k) {
+  const createOptions = function(e, k) {
     const guestFragment = document.createDocumentFragment();
       for (let i = e; i <=k; i++) {
       const newEl = document.createElement('option');
@@ -62,16 +62,43 @@ formRoomNumber.addEventListener('change', ()  => {
   };
 
     formRoomNumber.value == 1 ? (
-      foo(2, 2),
+      createOptions(2, 2),
       console.log()
     ):
       formRoomNumber.value == 2 ? (
-        foo(1, 2)
+        createOptions(1, 2)
       ) :
         formRoomNumber.value == 3 ? (
-          foo(0, 2)
+          createOptions(0, 2)
         ) : (
-          foo(3, 3)
+          createOptions(3, 3)
         )
 });
 
+const advertForm = document.querySelector('.ad-form');
+const formAddress = document.querySelector('#address');
+formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
+
+const resetForm = document.querySelector('.ad-form__reset');
+
+const clearForm = () => {
+resetForm.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  advertForm.reset()
+  const latlng = L.latLng(LAT_CITY, LNG_CITY);
+  mainPinMarker.setLatLng(latlng);
+  formAddress.value = `${latlng.lat}, ${latlng.lng}`;
+});
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  advertForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      onSuccess,
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      new FormData(evt.target),
+      );
+    });
+  };
+  export {setUserFormSubmit, formAddress, clearForm};

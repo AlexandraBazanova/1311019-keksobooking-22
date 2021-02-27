@@ -1,6 +1,5 @@
-import {similarAdvert} from './data.js'
-
 /* global L:readonly */
+import {formAddress} from './form.js';
 
 const mapForm = document.querySelectorAll('.ad-form__element');
 mapForm.forEach((element) => {
@@ -29,8 +28,8 @@ const activateState = function () {
   console.log('Карта инициализирована')
 };
 const LAT_CITY = 35.68950;
-const LNG_CITY = 139.69200;
-const ZOOM = 12;
+const LNG_CITY = 139.69201;
+const ZOOM = 10;
 const TIME_OUT = 2000;
 
 const map = L.map('map-canvas')
@@ -69,9 +68,6 @@ const mainPinMarker = L.marker(
 );
 
 mainPinMarker.addTo(map);
-
-const formAddress = document.querySelector('#address');
-formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
 
 mainPinMarker.on('drag', (evt) => {
   const coords = evt.target.getLatLng();
@@ -130,9 +126,9 @@ const createCustomPopup = function (point) {
   return advElement;
 };
 
-similarAdvert.forEach((point) => {
+const renderAdverts = function(similarAds) {
+ return similarAds.forEach((point) => {
   const {location} = point;
-
   const icon = L.icon({
     iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
     iconSize: [40, 40],
@@ -141,8 +137,8 @@ similarAdvert.forEach((point) => {
 
   const marker = L.marker(
     {
-      lat: location.x,
-      lng: location.y,
+      lat: location.lat,
+      lng: location.lng,
     },
     {
       icon,
@@ -158,3 +154,6 @@ similarAdvert.forEach((point) => {
       },
       );
   });
+};
+
+export {renderAdverts, LAT_CITY, LNG_CITY, mainPinMarker}
