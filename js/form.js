@@ -79,17 +79,15 @@ const advertForm = document.querySelector('.ad-form');
 const formAddress = document.querySelector('#address');
 formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
 
-const resetForm = document.querySelector('.ad-form__reset');
-
-const clearForm = () => {
-resetForm.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const clearForm = (evt) => {
+  evt? evt.preventDefault(): '';
   advertForm.reset()
   const latlng = L.latLng(LAT_CITY, LNG_CITY);
   mainPinMarker.setLatLng(latlng);
   formAddress.value = `${latlng.lat}, ${latlng.lng}`;
-});
 };
+const resetForm = document.querySelector('.ad-form__reset');
+resetForm.addEventListener('click', clearForm);
 
 const setUserFormSubmit = (onSuccess) => {
   advertForm.addEventListener('submit', (evt) => {

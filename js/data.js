@@ -61,4 +61,5 @@ const createAdvert = () => {
 };
 
 const similarAdvert = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
+//console.log(similarAdvert)
 export {similarAdvert, TYPES_OF_APPARTMENTS, TIMES};
