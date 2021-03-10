@@ -3,11 +3,13 @@ import {showAlert} from './utils.js';
 import {sendData} from './api.js';
 import {LAT_CITY, LNG_CITY, mainPinMarker} from './map.js';
 
+/* global L:readonly */
+
 const apartmentTypes = document.querySelector('#type');
 const formMinPrice = document.querySelector('#price');
 
 apartmentTypes.addEventListener('change', function (evt) {
-  const elOfApart = TYPES_OF_APPARTMENTS.filter(e => e.en === evt.target.value)[0].minPrice;
+  const elOfApart = TYPES_OF_APPARTMENTS[evt.target.value].price
   formMinPrice.setAttribute('placeholder', elOfApart);
 });
 

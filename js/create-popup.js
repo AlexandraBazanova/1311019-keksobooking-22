@@ -1,3 +1,4 @@
+import {TYPES_OF_APPARTMENTS} from './data.js';
 
 const createCustomPopup = function (point) {
   const advTemplate = document.querySelector('#card').content;
@@ -7,7 +8,15 @@ const createCustomPopup = function (point) {
   advElement.querySelector('.popup__title').textContent = point.offer.title;
   advElement.querySelector('.popup__text--address').textContent = point.offer.address;
   advElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
-  advElement.querySelector('.popup__type').textContent = point.offer.type;
+
+  const getTypeRu = function(getObj) {
+    return getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[0] ? TYPES_OF_APPARTMENTS.flat.ru:
+      (getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[1] ? TYPES_OF_APPARTMENTS.palace.ru:
+      (getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[2] ? TYPES_OF_APPARTMENTS.house.ru:
+      TYPES_OF_APPARTMENTS.bungalow.ru
+      ))};
+  advElement.querySelector('.popup__type').textContent = getTypeRu(point);
+
   advElement.querySelector('.popup__text--capacity').textContent = `${point.offer.rooms} комнаты для ${point.offer.guests} гостей`;
   advElement.querySelector('.popup__text--time').textContent = `Заезд после ${point.offer.checkin}, выезд до ${point.offer.checkout}`;
 
