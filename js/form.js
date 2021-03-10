@@ -3,11 +3,13 @@ import {showAlert} from './utils.js';
 import {sendData} from './api.js';
 import {LAT_CITY, LNG_CITY, mainPinMarker} from './map.js';
 
+/* global L:readonly */
+
 const apartmentTypes = document.querySelector('#type');
 const formMinPrice = document.querySelector('#price');
 
 apartmentTypes.addEventListener('change', function (evt) {
-  const elOfApart = TYPES_OF_APPARTMENTS.filter(e => e.en === evt.target.value)[0].minPrice;
+  const elOfApart = TYPES_OF_APPARTMENTS[evt.target.value].price
   formMinPrice.setAttribute('placeholder', elOfApart);
 });
 
@@ -79,17 +81,15 @@ const advertForm = document.querySelector('.ad-form');
 const formAddress = document.querySelector('#address');
 formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
 
-const resetForm = document.querySelector('.ad-form__reset');
-
-const clearForm = () => {
-resetForm.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const clearForm = (evt) => {
+  evt? evt.preventDefault(): '';
   advertForm.reset()
   const latlng = L.latLng(LAT_CITY, LNG_CITY);
   mainPinMarker.setLatLng(latlng);
   formAddress.value = `${latlng.lat}, ${latlng.lng}`;
-});
 };
+const resetForm = document.querySelector('.ad-form__reset');
+resetForm.addEventListener('click', clearForm);
 
 const setUserFormSubmit = (onSuccess) => {
   advertForm.addEventListener('submit', (evt) => {

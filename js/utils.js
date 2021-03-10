@@ -1,4 +1,4 @@
-export {getRandomNumber, getRandomArbitrary, getOneRandomItem, getRandomItemsArray, showAlert};
+export {getRandomNumber, getRandomArbitrary, getOneRandomItem, getRandomItemsArray, showAlert, randomProperty};
 
 // Функция, возвращающая случайное целое положительное число из переданного диапазона включительно
 const getRandomNumber = function (min, max) {
@@ -31,6 +31,12 @@ return -1;
 // Функция, возвращающая случайный элемент массива
 const getOneRandomItem = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
+// Функция, возвращающая случайный ключ объекта
+const randomProperty = function (obj) {
+  const keys = Object.keys(obj)
+  return obj[keys[keys.length * Math.random()]];
+};
+
 // Функция, возвращающая новый массив из случайных неповторяющихся элементов исходного массива
 const getRandomItemsArray = (arr, count) => {
   let _arr = [...arr];
@@ -38,6 +44,7 @@ const getRandomItemsArray = (arr, count) => {
 };
 
 const ALERT_SHOW_TIME = 5000;
+// Функция, описывающая стиль всплывающего сообщения
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;

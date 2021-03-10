@@ -1,4 +1,4 @@
-import {similarAdvert} from './data.js';
+//import {similarAdvert} from './data.js';
 export {renderCard};
 
 
@@ -66,7 +66,7 @@ const renderCard = function (announcement) {
   return cardElement;
 };
 //Создаем коробочку для объявлений
-const fragment = document.createDocumentFragment();
+//const fragment = document.createDocumentFragment();
 //Складываем в коробочку только первое объявление
 //fragment.appendChild(renderCard(similarAdvert[0]));
 
