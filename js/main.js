@@ -3,18 +3,16 @@ import './popup.js';
 import './form.js';
 import './map.js';
 import {getData} from './api.js';
-import {renderAdverts, filterType,filterPrice, filterRooms, filterGuests, filterFeatures} from './map.js'
+import {renderAdverts} from './map.js'
 import {setUserFormSubmit, clearForm} from './form.js'
+import {generalFilter} from './filter.js'
 
 getData((adverts) => {
-  console.log(adverts);
-
+  // console.log(adverts);
  renderAdverts(adverts);
- filterType(adverts);
- filterPrice(adverts);
- filterRooms(adverts);
- filterGuests(adverts);
- filterFeatures(adverts);
+
+
+ generalFilter(adverts);
 });
 
 setUserFormSubmit(clearForm);
