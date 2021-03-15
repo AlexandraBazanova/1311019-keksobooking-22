@@ -8,10 +8,7 @@ import {setUserFormSubmit, clearForm} from './form.js'
 import {generalFilter} from './filter.js'
 
 getData((adverts) => {
-  // console.log(adverts);
  renderAdverts(adverts);
-
-
  generalFilter(adverts);
 });
 
