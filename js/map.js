@@ -77,13 +77,12 @@ mainPinMarker.on('drag', (evt) => {
 const ADVERTS_COUNT = 10;
 
 const renderAdverts = function (similarAds) {
+
   markers.forEach(e => e.remove());
   return similarAds
   .slice(0, ADVERTS_COUNT)
   .forEach((point) => {
-    const {
-      location
-    } = point;
+    const {location} = point;
 
     const icon = L.icon({
       iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
@@ -96,18 +95,19 @@ const renderAdverts = function (similarAds) {
         lat: location.lat,
         lng: location.lng,
       },
-       {
+      {
         icon,
-       });
+      });
 
-    markerPin
+      markerPin
       .addTo(map)
       .bindPopup(
         createCustomPopup(point),
         {
           keepInView: true,
         },
-      );
+        );
+
 
     markers.push(markerPin)
   });
