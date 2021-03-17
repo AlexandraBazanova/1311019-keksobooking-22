@@ -1,7 +1,6 @@
 //import {similarAdvert} from './data.js';
 export {renderCard};
 
-
 const renderCard = function (announcement) {
   //Находим фрагмент с содержимым темплейта
   const templateFragment = document.querySelector('#card').content;
@@ -43,7 +42,7 @@ const renderCard = function (announcement) {
   const getImage = function (arr) {
     //Ищем элементы с классом popup__photo
     const image = adsElement.querySelector('.popup__photo');
-      if (arr.length == 1) {
+      if (arr.length === 1) {
         image.setAttribute("src", arr[0]);
       }
         if (arr.length > 1) {
@@ -54,7 +53,7 @@ const renderCard = function (announcement) {
             imageClone.setAttribute("src", arr[i]);
           }
         }
-          else if (arr.length == 0) {
+          else if (arr.length === 0) {
             image.classList.add('hidden');
           }
   };

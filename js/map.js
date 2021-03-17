@@ -2,19 +2,27 @@
 import {createCustomPopup} from './create-popup.js';
 import {formAddress} from './form.js';
 
+const LAT_CITY = 35.68940;
+const LNG_CITY = 139.69201;
+const ZOOM = 10;
+const TIME_OUT = 2000;
+const ADVERTS_COUNT = 10;
+const markers = [];
 const mapForm = document.querySelectorAll('.ad-form__element');
+const selectMapFilters = document.querySelectorAll('.map__filter');
+const featuresFilters = document.querySelector('.map__features');
+
 mapForm.forEach((element) => {
   element.classList.add('ad-form--disabled');
   element.setAttribute('disabled', 'true');
 });
-const selectMapFilters = document.querySelectorAll('.map__filter');
 selectMapFilters.forEach((mapFilter) => {
   mapFilter.classList.add('ad-form--disabled');
   mapFilter.setAttribute('disabled', 'true');
 });
-const featuresFilters = document.querySelector('.map__features');
 featuresFilters.classList.add('ad-form--disabled');
 featuresFilters.setAttribute('disabled', 'true');
+
 const activateState = function () {
   mapForm.forEach((element) => {
     element.classList.remove('ad-form--disabled');
@@ -28,12 +36,6 @@ const activateState = function () {
   });
   console.log('Карта инициализирована')
 };
-
-const LAT_CITY = 35.68940;
-const LNG_CITY = 139.69201;
-const ZOOM = 10;
-const TIME_OUT = 2000;
-const markers = [];
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -73,23 +75,17 @@ mainPinMarker.on('drag', (evt) => {
   formAddress.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
 });
 
-
-const ADVERTS_COUNT = 10;
-
 const renderAdverts = function (similarAds) {
-
   markers.forEach(e => e.remove());
   return similarAds
   .slice(0, ADVERTS_COUNT)
   .forEach((point) => {
     const {location} = point;
-
     const icon = L.icon({
       iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
       iconSize: [40, 40],
       iconAnchor: [20, 40],
     });
-
     const markerPin = L.marker(
       {
         lat: location.lat,
@@ -107,7 +103,6 @@ const renderAdverts = function (similarAds) {
           keepInView: true,
         },
         );
-
 
     markers.push(markerPin)
   });

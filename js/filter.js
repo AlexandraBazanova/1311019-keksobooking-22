@@ -34,11 +34,11 @@ const compare = function(obj, arr) {
     }
   };
   getFilteredArr(arr.forEach(ad => getFilteredArr(ad)))
-  const deb = _.debounce(() => renderAdverts(filteredArr), RERENDER_DELAY);
-  return deb()
+  const debounceAds = _.debounce(() => renderAdverts(filteredArr), RERENDER_DELAY);
+  return debounceAds()
 };
 
-const generalFilter = function(arr) {
+const getFilteredAdverts = function(arr) {
   filterObj.type = arr;
   filterObj.price = arr;
   filterObj.rooms = arr;
@@ -53,10 +53,10 @@ const generalFilter = function(arr) {
 
   housingTypeElement.addEventListener('change', (evt) => {
     if (evt.target.value !== 'any') {
-      filterObj.type = arr.filter(e => e.offer.type == evt.target.value);
+      filterObj.type = arr.filter(e => e.offer.type === evt.target.value);
     } else {
       filterObj.type = arr;
-    };
+    }
     compare(filterObj, arr);
   });
 
@@ -73,25 +73,25 @@ const generalFilter = function(arr) {
         break;
       default:
         filterObj.price = arr;
-    };
+    }
     compare(filterObj, arr);
   });
 
   housingRoomsElement.addEventListener('change', (evt) => {
     if (evt.target.value !== 'any') {
-      filterObj.rooms = arr.filter(e => e.offer.rooms == evt.target.value);
+      filterObj.rooms = arr.filter(e => e.offer.rooms === parseInt(evt.target.value));
     } else {
       filterObj.rooms = arr;
-    };
+    }
     compare(filterObj, arr);
   });
 
   housingGuestsElement.addEventListener('change', (evt) => {
     if (evt.target.value !== 'any') {
-      filterObj.guests = arr.filter(e => e.offer.guests == evt.target.value);
+      filterObj.guests = arr.filter(e => e.offer.guests === parseInt(evt.target.value));
     } else {
       filterObj.guests = arr;
-    };
+    }
     compare(filterObj, arr);
   });
 
@@ -101,7 +101,7 @@ const generalFilter = function(arr) {
         filterObj[feature] = arr.filter(e => e.offer.features.includes(evt.target.value));
       } else {
         filterObj[feature] = arr;
-      };
+      }
       compareFeatures(filterObj);
       compare(filterObj, arr);
     });
@@ -124,7 +124,7 @@ const generalFilter = function(arr) {
         && obj.elevator.includes(ad)
         && obj.conditioner.includes(ad)) {
           arrFeatures.push(ad);
-        };
+        }
       };
     getFilteredFeatures(arr.forEach(ad => getFilteredFeatures(ad)));
     obj.features = arrFeatures;
@@ -132,4 +132,4 @@ const generalFilter = function(arr) {
 
 };
 
-export {generalFilter}
+export {getFilteredAdverts}

@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomArbitrary, getOneRandomItem, getRandomItemsArray, randomProperty} from './utils.js';
+import {getRandomNumber, getRandomArbitrary, getOneRandomItem, getRandomItemsArray, getRandomProperty} from './utils.js';
 
 const TITLES = ['Лучшее предложение', 'Великолепное расположение', 'Выбор посетителей', 'Top 100', 'Eco-friendly', 'Летнее предложение', 'Для семейных выходных', 'Лучший вид на город'];
 const TYPES_OF_APPARTMENTS = {
@@ -7,7 +7,6 @@ const TYPES_OF_APPARTMENTS = {
   house : {ru: 'Дом', price: 5000},
   bungalow : {ru: 'Бунгало', price: 0}
 };
-
 const ROOMS_COUNTS = [1, 2, 3, 100];
 const GUESTS_COUNTS = [1, 2, 3, 4];
 const TIMES = ['12:00', '13:00', '14:00'];
@@ -19,7 +18,7 @@ const SIMILAR_ADVERT_COUNT = 10;
 const createAdvert = () => {
   const getPoint = {
     x: getRandomArbitrary(35.65000, 35.70000, 5),
-    y:getRandomArbitrary(139.70000, 139.80000, 5)
+    y: getRandomArbitrary(139.70000, 139.80000, 5)
   };
   const adTime = getOneRandomItem(TIMES);
   return {
@@ -30,7 +29,7 @@ const createAdvert = () => {
       title: getOneRandomItem(TITLES),
       address: `location.${getPoint.x}, location.${getPoint.y}`,
       price: getRandomNumber(0, 1000000),
-      type: randomProperty(TYPES_OF_APPARTMENTS),
+      type: getRandomProperty(TYPES_OF_APPARTMENTS),
       rooms: getOneRandomItem(ROOMS_COUNTS),
       guests: getOneRandomItem(GUESTS_COUNTS),
       checkin: adTime,
@@ -47,5 +46,4 @@ const createAdvert = () => {
 };
 
 const similarAdvert = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
-//console.log(similarAdvert)
 export {similarAdvert, TYPES_OF_APPARTMENTS};

@@ -10,9 +10,9 @@ const createCustomPopup = function (point) {
   advElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
 
   const getTypeRu = function(getObj) {
-    return getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[0] ? TYPES_OF_APPARTMENTS.flat.ru:
-      (getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[1] ? TYPES_OF_APPARTMENTS.palace.ru:
-      (getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[2] ? TYPES_OF_APPARTMENTS.house.ru:
+    return getObj.offer.type === Object.keys(TYPES_OF_APPARTMENTS)[0] ? TYPES_OF_APPARTMENTS.flat.ru:
+      (getObj.offer.type === Object.keys(TYPES_OF_APPARTMENTS)[1] ? TYPES_OF_APPARTMENTS.palace.ru:
+      (getObj.offer.type === Object.keys(TYPES_OF_APPARTMENTS)[2] ? TYPES_OF_APPARTMENTS.house.ru:
       TYPES_OF_APPARTMENTS.bungalow.ru
       ))};
   advElement.querySelector('.popup__type').textContent = getTypeRu(point);
@@ -38,7 +38,7 @@ const createCustomPopup = function (point) {
 
   const getImage = function (arr) {
     const image = advElement.querySelector('.popup__photo');
-    if (arr.length == 1) {
+    if (arr.length === 1) {
       image.setAttribute("src", arr[0]);
     }
     if (arr.length > 1) {
@@ -48,7 +48,7 @@ const createCustomPopup = function (point) {
         advElement.appendChild(imageClone);
         imageClone.setAttribute("src", arr[i]);
       }
-    } else if (arr.length == 0) {
+    } else if (arr.length === 0) {
       image.classList.add('hidden');
     }
   };
