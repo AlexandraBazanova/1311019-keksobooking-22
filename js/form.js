@@ -6,13 +6,13 @@ import {sendData} from './api.js';
 import {LAT_CITY, LNG_CITY, mainPinMarker, renderAdverts} from './map.js';
 import {mapFilters} from './filter.js';
 
-const savedAds = [];
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const ROOM_VALUES = ['1', '2', '3'];
 const GUEST_TEXTCONTENTS = ['для 3 гостей', 'для 2 гостей', 'для 1 гостя', 'не для гостей'];
 const GUEST_VALUES = ['3', '2', '1', '0'];
 const IMG_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const savedAds = [];
 const advertForm = document.querySelector('.ad-form');
 const formApartmentType = document.querySelector('#type');
 const formMinPrice = document.querySelector('#price');
@@ -119,6 +119,10 @@ imgFlatChooser.addEventListener('change', () => {
   }
 });
 
+const setAdvert = function(obj){
+ return obj.forEach(item => savedAds.push(item))
+};
+
 const clearForm = function(){
   advertForm.reset();
   formCapacity.innerHTML = "";
@@ -140,7 +144,7 @@ const clickOnReset = function(){
 };
 clickOnReset();
 
-const successSubmit = function(arr){
+const successSubmit = function(){
   showSuccessAlert('Ваше объявление успешно размещено!');
   clearForm();
 };
@@ -156,4 +160,4 @@ const setUserFormSubmit = function(onSuccess){
   });
 };
 
-  export {setUserFormSubmit, formAddress, successSubmit, savedAds};
+  export {setUserFormSubmit, formAddress, successSubmit, setAdvert};
