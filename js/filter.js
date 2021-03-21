@@ -132,4 +132,8 @@ const getFilteredAdverts = function(arr) {
 
 };
 
-export {getFilteredAdverts}
+export {mapFilters, getFilteredAdverts}
+
+
+
+

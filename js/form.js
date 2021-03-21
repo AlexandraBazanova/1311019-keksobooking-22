@@ -1,10 +1,15 @@
 /* global L:readonly */
 
-import {TYPES_OF_APPARTMENTS} from './data.js';
-import {showAlert} from './utils.js';
+import {TYPES_OF_APPARTMENTS} from './create-popup.js';
+import {showErrorAlert, showSuccessAlert} from './utils.js';
 import {sendData} from './api.js';
-import {LAT_CITY, LNG_CITY, mainPinMarker} from './map.js';
+import {LAT_CITY, LNG_CITY, mainPinMarker, renderAdverts} from './map.js';
+import {mapFilters} from './filter.js';
 
+const savedAds = [];
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const ROOM_VALUES = ['1', '2', '3'];
 const GUEST_TEXTCONTENTS = ['для 3 гостей', 'для 2 гостей', 'для 1 гостя', 'не для гостей'];
 const GUEST_VALUES = ['3', '2', '1', '0'];
 const IMG_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -48,34 +53,38 @@ formTimeOut.addEventListener('change', () => {
 formTitle.addEventListener('input', () => {
   formTitle.removeAttribute('style');
   const titleLength = formTitle.value.length;
-   if (titleLength < 30 || titleLength > 100) {
+   if (titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH) {
     formTitle.setAttribute('style', 'border: 1px solid red');
    }
  });
 
+formCapacity[0].setAttribute('disabled', 'true');
+formCapacity[1].setAttribute('disabled', 'true');
+formCapacity[3].setAttribute('disabled', 'true');
+
+const createOptions = function(firstItem, lastItem) {
+  const guestFragment = document.createDocumentFragment();
+    for (let i = firstItem; i <= lastItem; i++) {
+    const newEl = document.createElement('option');
+    newEl.setAttribute('value', GUEST_VALUES[i]);
+    newEl.innerHTML = GUEST_TEXTCONTENTS[i];
+    guestFragment.appendChild(newEl);
+    formCapacity.appendChild(guestFragment)
+    }
+  };
 formRoomNumber.addEventListener('change', ()  => {
   formCapacity.innerHTML = "";
-  const createOptions = function(firstItem, lastItem) {
-    const guestFragment = document.createDocumentFragment();
-      for (let i = firstItem; i <= lastItem; i++) {
-      const newEl = document.createElement('option');
-      newEl.setAttribute('value', GUEST_VALUES[i]);
-      newEl.innerHTML = GUEST_TEXTCONTENTS[i];
-      guestFragment.appendChild(newEl);
-      formCapacity.appendChild(guestFragment)
-      }
-  };
-    formRoomNumber.value === '1' ? (
-      createOptions(2, 2)
-    ):
-      formRoomNumber.value === '2' ? (
-        createOptions(1, 2)
-      ) :
-        formRoomNumber.value === '3' ? (
-          createOptions(0, 2)
-        ) : (
-          createOptions(3, 3)
-        )
+  formRoomNumber.value === ROOM_VALUES[0]? (
+    createOptions(2, 2)
+  ):
+    formRoomNumber.value === ROOM_VALUES[1]? (
+      createOptions(1, 2)
+    ) :
+      formRoomNumber.value === ROOM_VALUES[2]? (
+        createOptions(0, 2)
+      ) : (
+        createOptions(3, 3)
+      )
 });
 
 formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
@@ -110,26 +119,41 @@ imgFlatChooser.addEventListener('change', () => {
   }
 });
 
-const clearForm = (evt) => {
-  evt? evt.preventDefault(): '';
+const clearForm = function(){
   advertForm.reset();
+  formCapacity.innerHTML = "";
+  createOptions(2, 2);
   avatarPreview.setAttribute('src', 'img/muffin-grey.svg');
   imgFlatPreview.setAttribute('src', 'img/muffin-grey.svg');
   const latlng = L.latLng(LAT_CITY, LNG_CITY);
   mainPinMarker.setLatLng(latlng);
   formAddress.value = `${latlng.lat}, ${latlng.lng}`;
+  mapFilters.reset();
+  renderAdverts(savedAds);
 };
-resetForm.addEventListener('click', clearForm);
 
-const setUserFormSubmit = (onSuccess) => {
+const clickOnReset = function(){
+  resetForm.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    clearForm();
+  });
+};
+clickOnReset();
+
+const successSubmit = function(arr){
+  showSuccessAlert('Ваше объявление успешно размещено!');
+  clearForm();
+};
+
+const setUserFormSubmit = function(onSuccess){
   advertForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(
       onSuccess,
-      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      () => showErrorAlert('Не удалось отправить форму. Попробуйте ещё раз'),
       new FormData(evt.target),
-      );
-    });
-  };
+    );
+  });
+};
 
-  export {setUserFormSubmit, formAddress, clearForm};
+  export {setUserFormSubmit, formAddress, successSubmit, savedAds};

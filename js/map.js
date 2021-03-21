@@ -2,11 +2,18 @@
 import {createCustomPopup} from './create-popup.js';
 import {formAddress} from './form.js';
 
-const LAT_CITY = 35.68940;
-const LNG_CITY = 139.69201;
+const LAT_CITY = 35.68950;
+const LNG_CITY = 139.69171;
 const ZOOM = 10;
 const TIME_OUT = 2000;
 const ADVERTS_COUNT = 10;
+const DIGITS_AFT_DECIMAL_POINT = 5;
+const MAIN_ICON_SIZE = [52, 52];
+const MAIN_ICON_ANCHOR = [26, 52];
+const PIN_ICON_SIZE = [40, 40];
+const PIN_ICON_ANCHOR = [20, 40];
+const MAIN_ICON_URL = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg';
+const PIN_ICON_URL = 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg';
 const markers = [];
 const mapForm = document.querySelectorAll('.ad-form__element');
 const selectMapFilters = document.querySelectorAll('.map__filter');
@@ -55,9 +62,9 @@ L.tileLayer(
 ).addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconUrl: MAIN_ICON_URL,
+  iconSize: MAIN_ICON_SIZE,
+  iconAnchor: MAIN_ICON_ANCHOR,
 });
 
 const mainPinMarker = L.marker({
@@ -72,7 +79,7 @@ mainPinMarker.addTo(map);
 
 mainPinMarker.on('drag', (evt) => {
   const coords = evt.target.getLatLng();
-  formAddress.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
+  formAddress.value = `${coords.lat.toFixed(DIGITS_AFT_DECIMAL_POINT)}, ${coords.lng.toFixed(DIGITS_AFT_DECIMAL_POINT)}`;
 });
 
 const renderAdverts = function (similarAds) {
@@ -82,9 +89,9 @@ const renderAdverts = function (similarAds) {
   .forEach((point) => {
     const {location} = point;
     const icon = L.icon({
-      iconUrl: 'https://assets.htmlacademy.ru/content/intensive/javascript-1/demo/interactive-map/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
+      iconUrl: PIN_ICON_URL,
+      iconSize: PIN_ICON_SIZE,
+      iconAnchor: PIN_ICON_ANCHOR,
     });
     const markerPin = L.marker(
       {
@@ -108,4 +115,4 @@ const renderAdverts = function (similarAds) {
   });
 };
 
-export {renderAdverts, LAT_CITY, LNG_CITY, mainPinMarker}
+export {renderAdverts, LAT_CITY, LNG_CITY, mainPinMarker, markers, map}
