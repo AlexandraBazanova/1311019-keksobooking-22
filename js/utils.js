@@ -5,16 +5,16 @@ const contentSuccessTemplate = successTemplate.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content;
 const contentErrorTemplate = errorTemplate.querySelector('.error');
 
-
-const closeMessage = (messageError) => {
-  messageError.addEventListener('click', () => {
-    messageError.remove();
+const closeMessage = (message) => {
+  message.addEventListener('click', () => {
+    message.remove();
+    document.removeEventListener('click', closeMessage);
   });
   const closeEsc = function(evt){
     if (evt.keyCode === ESC) {
-      messageError.remove();
+      message.remove();
+      document.removeEventListener('keydown', closeEsc);
     }
-    document.removeEventListener('keydown', closeEsc);
   };
   document.addEventListener('keydown', closeEsc);
 };

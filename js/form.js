@@ -29,17 +29,18 @@ const imgFlatPreview = document.querySelector('.ad-form__photo img');
 const resetForm = document.querySelector('.ad-form__reset');
 
 formApartmentType.addEventListener('change', function (evt) {
-  const elOfApart = TYPES_OF_APPARTMENTS[evt.target.value].price
-  formMinPrice.setAttribute('placeholder', elOfApart);
+  const priceOfApart = TYPES_OF_APPARTMENTS[evt.target.value].price
+  formMinPrice.setAttribute('placeholder', priceOfApart);
+  formMinPrice.setAttribute('min', priceOfApart);
 });
 
 formMinPrice.addEventListener('blur', function (evt) {
  const placeholder = formMinPrice.getAttribute('placeholder');
  formMinPrice.removeAttribute('style');
-  if (parseInt(evt.target.value) < parseInt(placeholder)) {
-    formMinPrice.setAttribute('style', 'border: 1px solid red');
-    alert('Значение поля «Цена за ночь» меньше минимально допустимого');
-  }
+ if (parseInt(evt.target.value) < parseInt(placeholder)) {
+   formMinPrice.setAttribute('style', 'border: 1px solid red');
+   alert('Значение поля «Цена за ночь» меньше минимально допустимого');
+ }
 });
 
 formTimeIn.addEventListener('change', () => {
@@ -132,6 +133,7 @@ const clearForm = function(){
   const latlng = L.latLng(LAT_CITY, LNG_CITY);
   mainPinMarker.setLatLng(latlng);
   formAddress.value = `${latlng.lat}, ${latlng.lng}`;
+  formMinPrice.placeholder = TYPES_OF_APPARTMENTS.flat.price;
   mapFilters.reset();
   renderAdverts(savedAds);
 };
