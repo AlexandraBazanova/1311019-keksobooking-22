@@ -1,4 +1,9 @@
-import {TYPES_OF_APPARTMENTS} from './data.js';
+const TYPES_OF_APPARTMENTS = {
+  flat: {ru: 'Квартира', price: 1000},
+  palace: {ru: 'Дворец', price: 10000},
+  house : {ru: 'Дом', price: 5000},
+  bungalow : {ru: 'Бунгало', price: 0}
+};
 
 const createCustomPopup = function (point) {
   const advTemplate = document.querySelector('#card').content;
@@ -10,9 +15,9 @@ const createCustomPopup = function (point) {
   advElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
 
   const getTypeRu = function(getObj) {
-    return getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[0] ? TYPES_OF_APPARTMENTS.flat.ru:
-      (getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[1] ? TYPES_OF_APPARTMENTS.palace.ru:
-      (getObj.offer.type == Object.keys(TYPES_OF_APPARTMENTS)[2] ? TYPES_OF_APPARTMENTS.house.ru:
+    return getObj.offer.type === Object.keys(TYPES_OF_APPARTMENTS)[0] ? TYPES_OF_APPARTMENTS.flat.ru:
+      (getObj.offer.type === Object.keys(TYPES_OF_APPARTMENTS)[1] ? TYPES_OF_APPARTMENTS.palace.ru:
+      (getObj.offer.type === Object.keys(TYPES_OF_APPARTMENTS)[2] ? TYPES_OF_APPARTMENTS.house.ru:
       TYPES_OF_APPARTMENTS.bungalow.ru
       ))};
   advElement.querySelector('.popup__type').textContent = getTypeRu(point);
@@ -22,12 +27,13 @@ const createCustomPopup = function (point) {
 
   const getFeatures = function () {
     const featuresFragment = document.createDocumentFragment();
-    for (let i = 0; i < point.offer.features.length; i++) {
+    const createDomFeature = function(feature){
       const newElement = document.createElement('li');
-      const newClassFeature = 'popup__feature--' + point.offer.features[i];
+      const newClassFeature = 'popup__feature--' + feature;
       newElement.classList.add('popup__feature', newClassFeature);
       featuresFragment.appendChild(newElement);
     }
+    point.offer.features.forEach(e => createDomFeature(e));
     return featuresFragment;
   };
   const featuresList = advElement.querySelector('.popup__features');
@@ -38,7 +44,7 @@ const createCustomPopup = function (point) {
 
   const getImage = function (arr) {
     const image = advElement.querySelector('.popup__photo');
-    if (arr.length == 1) {
+    if (arr.length === 1) {
       image.setAttribute("src", arr[0]);
     }
     if (arr.length > 1) {
@@ -48,7 +54,7 @@ const createCustomPopup = function (point) {
         advElement.appendChild(imageClone);
         imageClone.setAttribute("src", arr[i]);
       }
-    } else if (arr.length == 0) {
+    } else if (arr.length === 0) {
       image.classList.add('hidden');
     }
   };
@@ -59,4 +65,4 @@ const createCustomPopup = function (point) {
   return advElement;
 };
 
-export {createCustomPopup};
+export {TYPES_OF_APPARTMENTS, createCustomPopup};
