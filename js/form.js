@@ -129,6 +129,7 @@ const setAdvert = function(obj){
 const clearForm = function(){
   advertForm.reset();
   formMinPrice.setAttribute('placeholder', TYPES_OF_APPARTMENTS.flat.price);
+  formMinPrice.setAttribute('min', TYPES_OF_APPARTMENTS.flat.price);
   formCapacity.innerHTML = "";
   createOptions(2, 2);
   avatarPreview.setAttribute('src', 'img/muffin-grey.svg');
