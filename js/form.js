@@ -28,6 +28,8 @@ const imgFlatChooser = document.querySelector('.ad-form__upload input[type=file]
 const imgFlatPreview = document.querySelector('.ad-form__photo img');
 const resetForm = document.querySelector('.ad-form__reset');
 
+formMinPrice.setAttribute('placeholder', TYPES_OF_APPARTMENTS.flat.price);
+formMinPrice.setAttribute('min', TYPES_OF_APPARTMENTS.flat.price);
 formApartmentType.addEventListener('change', function (evt) {
   const priceOfApart = TYPES_OF_APPARTMENTS[evt.target.value].price
   formMinPrice.setAttribute('placeholder', priceOfApart);
@@ -133,7 +135,6 @@ const clearForm = function(){
   const latlng = L.latLng(LAT_CITY, LNG_CITY);
   mainPinMarker.setLatLng(latlng);
   formAddress.value = `${latlng.lat}, ${latlng.lng}`;
-  formMinPrice.placeholder = TYPES_OF_APPARTMENTS.flat.price;
   mapFilters.reset();
   renderAdverts(savedAds);
 };
