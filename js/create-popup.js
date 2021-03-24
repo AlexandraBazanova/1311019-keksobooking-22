@@ -21,8 +21,8 @@ const getFeatures = function(featuresList, features){
   }
 };
 
-const getImages = function(imagesList, images) {
-  imagesList.innerHTML = '';
+const getImages = function(nodeImages, images) {
+  nodeImages.innerHTML = '';
   if (images.length) {
     images.forEach((image) => {
       const newElement = document.createElement('img');
@@ -30,10 +30,10 @@ const getImages = function(imagesList, images) {
       newElement.classList.add('popup__photo');
       newElement.style.width = `${IMAGE_WIDTH}px`;
       newElement.style.height = `${IMAGE_HEIGHT}px`;
-      imagesList.appendChild(newElement);
+      nodeImages.appendChild(newElement);
     });
   } else {
-    imagesList.remove();
+    nodeImages.remove();
   }
 };
 
@@ -42,7 +42,7 @@ const createCustomPopup = function (point) {
   const advCard = advTemplate.cloneNode(true);
   const advElement = advCard.querySelector('.popup');
   const featuresList = advElement.querySelector('.popup__features');
-  const imagesList = advElement.querySelector('.popup__photos');
+  const nodeImages = advElement.querySelector('.popup__photos');
 
   advElement.querySelector('.popup__title').textContent = point.offer.title;
   advElement.querySelector('.popup__text--address').textContent = point.offer.address;
@@ -52,7 +52,7 @@ const createCustomPopup = function (point) {
   advElement.querySelector('.popup__text--time').textContent = `Заезд после ${point.offer.checkin}, выезд до ${point.offer.checkout}`;
   getFeatures(featuresList, point.offer.features);
   advElement.querySelector('.popup__description').textContent = point.offer.description;
-  getImages(imagesList, point.offer.photos);
+  getImages(nodeImages, point.offer.photos);
   advElement.querySelector('.popup__avatar').setAttribute('src', point.author.avatar);
 
   return advElement;
