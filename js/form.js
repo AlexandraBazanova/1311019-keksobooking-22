@@ -1,5 +1,4 @@
 /* global L:readonly */
-
 import {TYPES_OF_APPARTMENTS} from './create-popup.js';
 import {showErrorAlert, showSuccessAlert} from './utils.js';
 import {sendData} from './api.js';
@@ -37,12 +36,11 @@ formApartmentType.addEventListener('change', function (evt) {
 });
 
 formMinPrice.addEventListener('blur', function (evt) {
- const placeholder = formMinPrice.getAttribute('placeholder');
- formMinPrice.removeAttribute('style');
- if (parseInt(evt.target.value) < parseInt(placeholder)) {
-   formMinPrice.setAttribute('style', 'border: 1px solid red');
-   alert('Значение поля «Цена за ночь» меньше минимально допустимого');
- }
+  const placeholder = formMinPrice.getAttribute('placeholder');
+  formMinPrice.removeAttribute('style');
+  if (parseInt(evt.target.value) < parseInt(placeholder)) {
+    formMinPrice.setAttribute('style', 'border: 1px solid red');
+  }
 });
 
 formTimeIn.addEventListener('change', () => {
@@ -56,10 +54,10 @@ formTimeOut.addEventListener('change', () => {
 formTitle.addEventListener('input', () => {
   formTitle.removeAttribute('style');
   const titleLength = formTitle.value.length;
-   if (titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH) {
+  if (titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH) {
     formTitle.setAttribute('style', 'border: 1px solid red');
-   }
- });
+  }
+});
 
 formCapacity[0].setAttribute('disabled', 'true');
 formCapacity[1].setAttribute('disabled', 'true');
@@ -67,16 +65,16 @@ formCapacity[3].setAttribute('disabled', 'true');
 
 const createOptions = function(firstItem, lastItem) {
   const guestFragment = document.createDocumentFragment();
-    for (let i = firstItem; i <= lastItem; i++) {
+  for (let i = firstItem; i <= lastItem; i++) {
     const newEl = document.createElement('option');
     newEl.setAttribute('value', GUEST_VALUES[i]);
     newEl.innerHTML = GUEST_TEXTCONTENTS[i];
     guestFragment.appendChild(newEl);
     formCapacity.appendChild(guestFragment)
-    }
-  };
+  }
+};
 formRoomNumber.addEventListener('change', ()  => {
-  formCapacity.innerHTML = "";
+  formCapacity.innerHTML = '';
   formRoomNumber.value === ROOM_VALUES[0]? (
     createOptions(2, 2)
   ):
@@ -122,15 +120,15 @@ imgFlatChooser.addEventListener('change', () => {
   }
 });
 
-const setAdvert = function(obj){
- return obj.forEach(item => savedAds.push(item))
+const setFormAdverts = function(adverts){
+  return adverts.forEach(item => savedAds.push(item))
 };
 
 const clearForm = function(){
   advertForm.reset();
   formMinPrice.setAttribute('placeholder', TYPES_OF_APPARTMENTS.flat.price);
   formMinPrice.setAttribute('min', TYPES_OF_APPARTMENTS.flat.price);
-  formCapacity.innerHTML = "";
+  formCapacity.innerHTML = '';
   createOptions(2, 2);
   avatarPreview.setAttribute('src', 'img/muffin-grey.svg');
   imgFlatPreview.setAttribute('src', 'img/muffin-grey.svg');
@@ -165,5 +163,5 @@ const setUserFormSubmit = function(onSuccess){
   });
 };
 
-  export {setUserFormSubmit, formAddress, successSubmit, setAdvert};
+export {setUserFormSubmit, formAddress, successSubmit, setFormAdverts};
 

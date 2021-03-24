@@ -5,18 +5,24 @@ const contentSuccessTemplate = successTemplate.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content;
 const contentErrorTemplate = errorTemplate.querySelector('.error');
 
-const closeMessage = (message) => {
-  message.addEventListener('click', () => {
+const setMessageCallbacks = (message) => {
+
+  const onMessageClick = function(){
     message.remove();
-    document.removeEventListener('click', closeMessage);
-  });
-  const closeEsc = function(evt){
+    document.removeEventListener('click', setMessageCallbacks);
+    document.removeEventListener('keydown', onMessageEscPress);
+  };
+
+  const onMessageEscPress = function(evt){
     if (evt.keyCode === ESC) {
       message.remove();
-      document.removeEventListener('keydown', closeEsc);
+      document.removeEventListener('keydown', onMessageEscPress);
+      document.removeEventListener('click', setMessageCallbacks);
     }
   };
-  document.addEventListener('keydown', closeEsc);
+
+  document.addEventListener('click', onMessageClick);
+  document.addEventListener('keydown', onMessageEscPress);
 };
 
 const showErrorAlert = (message) => {
@@ -25,7 +31,7 @@ const showErrorAlert = (message) => {
   errorMessage.textContent = message;
   alertContainer.style.zIndex = 600;
   main.append(alertContainer);
-  closeMessage(alertContainer);
+  setMessageCallbacks(alertContainer);
 };
 
 const showSuccessAlert = (message) => {
@@ -34,7 +40,7 @@ const showSuccessAlert = (message) => {
   successMessage.textContent = message;
   successContainer.style.zIndex = 600;
   main.append(successContainer);
-  closeMessage(successContainer);
+  setMessageCallbacks(successContainer);
 };
 
 export {showErrorAlert, showSuccessAlert};

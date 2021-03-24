@@ -41,7 +41,6 @@ const activateState = function () {
     mapFilter.classList.remove('ad-form--disabled');
     mapFilter.removeAttribute('disabled');
   });
-  console.log('Карта инициализирована')
 };
 
 const map = L.map('map-canvas')
@@ -73,7 +72,7 @@ const mainPinMarker = L.marker({
 }, {
   draggable: true,
   icon: mainPinIcon,
-}, );
+});
 
 mainPinMarker.addTo(map);
 
@@ -85,34 +84,34 @@ mainPinMarker.on('drag', (evt) => {
 const renderAdverts = function (similarAds) {
   markers.forEach(e => e.remove());
   return similarAds
-  .slice(0, ADVERTS_COUNT)
-  .forEach((point) => {
-    const {location} = point;
-    const icon = L.icon({
-      iconUrl: PIN_ICON_URL,
-      iconSize: PIN_ICON_SIZE,
-      iconAnchor: PIN_ICON_ANCHOR,
-    });
-    const markerPin = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      {
-        icon,
+    .slice(0, ADVERTS_COUNT)
+    .forEach((point) => {
+      const {location} = point;
+      const icon = L.icon({
+        iconUrl: PIN_ICON_URL,
+        iconSize: PIN_ICON_SIZE,
+        iconAnchor: PIN_ICON_ANCHOR,
       });
+      const markerPin = L.marker(
+        {
+          lat: location.lat,
+          lng: location.lng,
+        },
+        {
+          icon,
+        });
 
       markerPin
-      .addTo(map)
-      .bindPopup(
-        createCustomPopup(point),
-        {
-          keepInView: true,
-        },
+        .addTo(map)
+        .bindPopup(
+          createCustomPopup(point),
+          {
+            keepInView: true,
+          },
         );
 
-    markers.push(markerPin)
-  });
+      markers.push(markerPin)
+    });
 };
 
 export {renderAdverts, LAT_CITY, LNG_CITY, mainPinMarker, markers, map}
