@@ -1,5 +1,6 @@
 /* global _:readonly */
 import {renderAdverts} from './map.js';
+import {advertisments} from './api.js';
 
 const RERENDER_DELAY = 500;
 const MIN_BORDER_PRICE = 10000;
@@ -9,7 +10,6 @@ const FilterPrice = {
   MIDDLE: 'middle',
   HIGH: 'high',
 };
-const savedAdverts = [];
 
 const mapFilters = document.querySelector('.map__filters');
 const housingTypeElement = mapFilters.querySelector('#housing-type');
@@ -24,69 +24,65 @@ const featuresElevator = mapFilters.querySelector('#filter-elevator');
 const featuresConditioner = mapFilters.querySelector('#filter-conditioner');
 const filterObj = {};
 
-const setFilterAdverts = function(adverts){
-  return adverts.forEach(item => savedAdverts.push(item))
-};
-
 const compare = function (obj, adverts) {
-  let filteredAdverts = [];
+  let filters = [];
   const getFilteredArr = function (ad) {
     if (obj.type.includes(ad) &&
       obj.price.includes(ad) &&
       obj.rooms.includes(ad) &&
       obj.guests.includes(ad) &&
       obj.features.includes(ad)) {
-      filteredAdverts.push(ad);
+      filters.push(ad);
     }
   };
   getFilteredArr(adverts.forEach(ad => getFilteredArr(ad)))
-  renderAdverts(filteredAdverts)
+  renderAdverts(filters)
 };
 
-const filterhousingType = function () {
+const filterOutType = function () {
   housingTypeElement.addEventListener('change', (evt) => {
     if (evt.target.value !== 'any') {
-      filterObj.type = savedAdverts.filter(e => e.offer.type === evt.target.value);
+      filterObj.type = advertisments.filter(e => e.offer.type === evt.target.value);
     } else {
-      filterObj.type = savedAdverts;
+      filterObj.type = advertisments;
     }
   });
 };
 
-const filterhousingPrice = function () {
+const filterOutPrice = function () {
   housingPriceElement.addEventListener('change', (evt) => {
     switch (evt.target.value) {
       case FilterPrice.MIDDLE:
-        filterObj.price = savedAdverts.filter(e => e.offer.price >= MIN_BORDER_PRICE && e.offer.price <= MAX_BORDER_PRICE);
+        filterObj.price = advertisments.filter(e => e.offer.price >= MIN_BORDER_PRICE && e.offer.price <= MAX_BORDER_PRICE);
         break;
       case FilterPrice.LOW:
-        filterObj.price = savedAdverts.filter(e => e.offer.price < MIN_BORDER_PRICE);
+        filterObj.price = advertisments.filter(e => e.offer.price < MIN_BORDER_PRICE);
         break;
       case FilterPrice.HIGH:
-        filterObj.price = savedAdverts.filter(e => e.offer.price > MAX_BORDER_PRICE);
+        filterObj.price = advertisments.filter(e => e.offer.price > MAX_BORDER_PRICE);
         break;
       default:
-        filterObj.price = savedAdverts;
+        filterObj.price = advertisments;
     }
   });
 };
 
-const filterhousingRooms = function () {
+const filterOutRooms = function () {
   housingRoomsElement.addEventListener('change', (evt) => {
     if (evt.target.value !== 'any') {
-      filterObj.rooms = savedAdverts.filter(e => e.offer.rooms === parseInt(evt.target.value));
+      filterObj.rooms = advertisments.filter(e => e.offer.rooms === parseInt(evt.target.value));
     } else {
-      filterObj.rooms = savedAdverts;
+      filterObj.rooms = advertisments;
     }
   });
 };
 
-const filterhousingGuests = function () {
+const filterOutGuests = function () {
   housingGuestsElement.addEventListener('change', (evt) => {
     if (evt.target.value !== 'any') {
-      filterObj.guests = savedAdverts.filter(e => e.offer.guests === parseInt(evt.target.value));
+      filterObj.guests = advertisments.filter(e => e.offer.guests === parseInt(evt.target.value));
     } else {
-      filterObj.guests = savedAdverts;
+      filterObj.guests = advertisments;
     }
   });
 };
@@ -94,9 +90,9 @@ const filterhousingGuests = function () {
 const listenFeatures = function (domElement, feature) {
   domElement.addEventListener('change', (evt) => {
     if (evt.target.checked) {
-      filterObj[feature] = savedAdverts.filter(e => e.offer.features.includes(evt.target.value));
+      filterObj[feature] = advertisments.filter(e => e.offer.features.includes(evt.target.value));
     } else {
-      filterObj[feature] = savedAdverts;
+      filterObj[feature] = advertisments;
     }
     compareFeatures(filterObj);
   });
@@ -114,25 +110,14 @@ const compareFeatures = function (obj) {
       advertsFeatures.push(ad);
     }
   };
-  getFilteredFeatures(savedAdverts.forEach(ad => getFilteredFeatures(ad)));
+  getFilteredFeatures(advertisments.forEach(ad => getFilteredFeatures(ad)));
   obj.features = advertsFeatures;
 };
 
-filterObj.type = savedAdverts;
-filterObj.price = savedAdverts;
-filterObj.rooms = savedAdverts;
-filterObj.guests = savedAdverts;
-filterObj.features = savedAdverts;
-filterObj.wifi = savedAdverts;
-filterObj.dishwasher = savedAdverts;
-filterObj.parking = savedAdverts;
-filterObj.washer = savedAdverts;
-filterObj.elevator = savedAdverts;
-filterObj.conditioner = savedAdverts;
-filterhousingType();
-filterhousingPrice();
-filterhousingRooms();
-filterhousingGuests();
+filterOutType();
+filterOutPrice();
+filterOutRooms();
+filterOutGuests();
 listenFeatures(featuresWifi, 'wifi');
 listenFeatures(featuresDishwasher, 'dishwasher');
 listenFeatures(featuresParking, 'parking');
@@ -140,20 +125,32 @@ listenFeatures(featuresWasher, 'washer');
 listenFeatures(featuresElevator, 'elevator');
 listenFeatures(featuresConditioner, 'conditioner');
 
-const renderFilteredAdverts = function (adverts) {
+const renderFilteredAdverts = function (advertisments) {
+  filterObj.type =
+  filterObj.price =
+  filterObj.rooms =
+  filterObj.guests =
+  filterObj.features =
+  filterObj.wifi =
+  filterObj.dishwasher =
+  filterObj.parking =
+  filterObj.washer =
+  filterObj.elevator =
+  filterObj.conditioner = advertisments;
+
   mapFilters.addEventListener('change', (evt) => {
     switch (evt.target) {
       case housingTypeElement:
-        filterhousingType();
+        filterOutType();
         break;
       case housingPriceElement:
-        filterhousingPrice();
+        filterOutPrice();
         break;
       case housingRoomsElement:
-        filterhousingRooms();
+        filterOutRooms();
         break;
       case housingGuestsElement:
-        filterhousingGuests();
+        filterOutGuests();
         break;
       case featuresWifi:
         listenFeatures(featuresWifi, 'wifi');
@@ -174,9 +171,9 @@ const renderFilteredAdverts = function (adverts) {
         listenFeatures(featuresConditioner, 'conditioner');
         break;
     }
-    const debounceAds = _.debounce(() => compare(filterObj, adverts), RERENDER_DELAY);
+    const debounceAds = _.debounce(() => compare(filterObj, advertisments), RERENDER_DELAY);
     return debounceAds()
   });
 };
 
-export {mapFilters, renderFilteredAdverts, setFilterAdverts}
+export {mapFilters, renderFilteredAdverts};

@@ -1,6 +1,6 @@
 const IMAGE_WIDTH = 45;
 const IMAGE_HEIGHT = 40;
-const TYPES_OF_APPARTMENTS = {
+const APPARTMENTS = {
   flat: {ru: 'Квартира', price: 1000},
   palace: {ru: 'Дворец', price: 10000},
   house : {ru: 'Дом', price: 5000},
@@ -47,7 +47,7 @@ const createCustomPopup = function (point) {
   advElement.querySelector('.popup__title').textContent = point.offer.title;
   advElement.querySelector('.popup__text--address').textContent = point.offer.address;
   advElement.querySelector('.popup__text--price').textContent = `${point.offer.price} ₽/ночь`;
-  advElement.querySelector('.popup__type').textContent = TYPES_OF_APPARTMENTS[point.offer.type].ru;
+  advElement.querySelector('.popup__type').textContent = APPARTMENTS[point.offer.type].ru;
   advElement.querySelector('.popup__text--capacity').textContent = `${point.offer.rooms} комнаты для ${point.offer.guests} гостей`;
   advElement.querySelector('.popup__text--time').textContent = `Заезд после ${point.offer.checkin}, выезд до ${point.offer.checkout}`;
   getFeatures(featuresList, point.offer.features);
@@ -58,4 +58,4 @@ const createCustomPopup = function (point) {
   return advElement;
 };
 
-export {TYPES_OF_APPARTMENTS, createCustomPopup};
+export {APPARTMENTS, createCustomPopup};

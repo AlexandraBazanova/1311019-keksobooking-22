@@ -1,17 +1,16 @@
 /* global L:readonly */
-import {TYPES_OF_APPARTMENTS} from './create-popup.js';
+import {APPARTMENTS} from './create-popup.js';
 import {showErrorAlert, showSuccessAlert} from './utils.js';
-import {sendData} from './api.js';
+import {sendData, advertisments} from './api.js';
 import {LAT_CITY, LNG_CITY, mainPinMarker, renderAdverts} from './map.js';
 import {mapFilters} from './filter.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
-const ROOM_VALUES = ['1', '2', '3'];
-const GUEST_TEXTCONTENTS = ['для 3 гостей', 'для 2 гостей', 'для 1 гостя', 'не для гостей'];
-const GUEST_VALUES = ['3', '2', '1', '0'];
-const IMG_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-const savedAds = [];
+const ROOMS = ['1', '2', '3'];
+const TEXTCONTENTS = ['для 3 гостей', 'для 2 гостей', 'для 1 гостя', 'не для гостей'];
+const TGUESTS = ['3', '2', '1', '0'];
+const IMAGES = ['gif', 'jpg', 'jpeg', 'png'];
 const advertForm = document.querySelector('.ad-form');
 const formApartmentType = document.querySelector('#type');
 const formMinPrice = document.querySelector('#price');
@@ -27,10 +26,10 @@ const imgFlatChooser = document.querySelector('.ad-form__upload input[type=file]
 const imgFlatPreview = document.querySelector('.ad-form__photo img');
 const resetForm = document.querySelector('.ad-form__reset');
 
-formMinPrice.setAttribute('placeholder', TYPES_OF_APPARTMENTS.flat.price);
-formMinPrice.setAttribute('min', TYPES_OF_APPARTMENTS.flat.price);
+formMinPrice.setAttribute('placeholder', APPARTMENTS.flat.price);
+formMinPrice.setAttribute('min', APPARTMENTS.flat.price);
 formApartmentType.addEventListener('change', function (evt) {
-  const priceOfApart = TYPES_OF_APPARTMENTS[evt.target.value].price
+  const priceOfApart = APPARTMENTS[evt.target.value].price
   formMinPrice.setAttribute('placeholder', priceOfApart);
   formMinPrice.setAttribute('min', priceOfApart);
 });
@@ -67,21 +66,21 @@ const createOptions = function(firstItem, lastItem) {
   const guestFragment = document.createDocumentFragment();
   for (let i = firstItem; i <= lastItem; i++) {
     const newEl = document.createElement('option');
-    newEl.setAttribute('value', GUEST_VALUES[i]);
-    newEl.innerHTML = GUEST_TEXTCONTENTS[i];
+    newEl.setAttribute('value', TGUESTS[i]);
+    newEl.innerHTML = TEXTCONTENTS[i];
     guestFragment.appendChild(newEl);
     formCapacity.appendChild(guestFragment)
   }
 };
 formRoomNumber.addEventListener('change', ()  => {
-  formCapacity.innerHTML = '';
-  formRoomNumber.value === ROOM_VALUES[0]? (
+  formCapacity.textContent = '';
+  formRoomNumber.value === ROOMS[0]? (
     createOptions(2, 2)
   ):
-    formRoomNumber.value === ROOM_VALUES[1]? (
+    formRoomNumber.value === ROOMS[1]? (
       createOptions(1, 2)
     ) :
-      formRoomNumber.value === ROOM_VALUES[2]? (
+      formRoomNumber.value === ROOMS[2]? (
         createOptions(0, 2)
       ) : (
         createOptions(3, 3)
@@ -93,7 +92,7 @@ formAddress.value = `${LAT_CITY}, ${LNG_CITY}`;
 avatarChooser.addEventListener('change', () => {
   const file = avatarChooser.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = IMG_TYPES.some((it) => {
+  const matches = IMAGES.some((it) => {
     return fileName.endsWith(it);
   });
   if (matches) {
@@ -108,7 +107,7 @@ avatarChooser.addEventListener('change', () => {
 imgFlatChooser.addEventListener('change', () => {
   const file = imgFlatChooser.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = IMG_TYPES.some((it) => {
+  const matches = IMAGES.some((it) => {
     return fileName.endsWith(it);
   });
   if (matches) {
@@ -120,14 +119,10 @@ imgFlatChooser.addEventListener('change', () => {
   }
 });
 
-const setFormAdverts = function(adverts){
-  return adverts.forEach(item => savedAds.push(item))
-};
-
 const clearForm = function(){
   advertForm.reset();
-  formMinPrice.setAttribute('placeholder', TYPES_OF_APPARTMENTS.flat.price);
-  formMinPrice.setAttribute('min', TYPES_OF_APPARTMENTS.flat.price);
+  formMinPrice.setAttribute('placeholder', APPARTMENTS.flat.price);
+  formMinPrice.setAttribute('min', APPARTMENTS.flat.price);
   formCapacity.innerHTML = '';
   createOptions(2, 2);
   avatarPreview.setAttribute('src', 'img/muffin-grey.svg');
@@ -136,7 +131,7 @@ const clearForm = function(){
   mainPinMarker.setLatLng(latlng);
   formAddress.value = `${latlng.lat}, ${latlng.lng}`;
   mapFilters.reset();
-  renderAdverts(savedAds);
+  renderAdverts(advertisments);
 };
 
 const clickOnReset = function(){
@@ -147,7 +142,7 @@ const clickOnReset = function(){
 };
 clickOnReset();
 
-const successSubmit = function(){
+const submitAd = function(){
   showSuccessAlert('Ваше объявление успешно размещено!');
   clearForm();
 };
@@ -163,5 +158,5 @@ const setUserFormSubmit = function(onSuccess){
   });
 };
 
-export {setUserFormSubmit, formAddress, successSubmit, setFormAdverts};
+export {setUserFormSubmit, formAddress, submitAd};
 

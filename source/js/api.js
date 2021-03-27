@@ -1,11 +1,13 @@
 const GET_URL = 'https://22.javascript.pages.academy/keksobooking/data';
 const SEND_URL = 'https://22.javascript.pages.academy/keksobooking';
+let advertisments = [];
 
 const getData = (onSuccess, onFail) => {
   fetch(GET_URL)
     .then((response) => response.json())
     .then((adverts) => {
-      onSuccess(adverts);
+      advertisments = adverts;
+      onSuccess(advertisments);
     })
     .catch(() => {
       onFail('Не удалось получить данные');
@@ -31,4 +33,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {getData, sendData};
+export {getData, sendData, advertisments};
